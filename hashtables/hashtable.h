@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <stdlib.h>
+#include <vector>
 using namespace std;
 
 class Hashtable {
@@ -34,11 +36,13 @@ class Hashtable {
   void xor_sets (Hashtable &table);
   void sum (Hashtable &table);
 
-  void print_hashtable (Hashtable &table);
-
+  void print_hashtable (void);
+  void input_set (void);
+  void generate_set (void);
+  
   int get_power (void) { return power; }
   int get_setname (void) { return set_name; }
   void set_setname (char name) { set_name = name; }
   Hashtable& operator= (const Hashtable& table);
-  void input_set (void);
+  
 };
