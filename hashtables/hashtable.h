@@ -39,4 +39,6 @@ class Hashtable {
   int get_power (void) { return power; }
   int get_setname (void) { return set_name; }
   void set_setname (char name) { set_name = name; }
+  Hashtable& operator= (const Hashtable& table);
+  void input_set (void);
 };
