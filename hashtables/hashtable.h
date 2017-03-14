@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 class Hashtable {
@@ -28,10 +29,10 @@ class Hashtable {
 
  public:
   Hashtable (char name);
-  Hashtable& diff (Hashtable &table);
-  Hashtable& product (Hashtable &table);
-  Hashtable& xor_sets (Hashtable &table);
-  Hashtable& sum (Hashtable &table);
+  void diff (Hashtable &table);
+  void product (Hashtable &table);
+  void xor_sets (Hashtable &table);
+  void sum (Hashtable &table);
 
   void print_hashtable (Hashtable &table);
 
