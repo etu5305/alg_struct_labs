@@ -1,6 +1,6 @@
 #include "hashtable.h"
-
 int main (void){
+  
   Hashtable A('A'), B('B'), C('C'), D('D'), E('E');
   int ans=2;
   do{
@@ -34,7 +34,7 @@ int main (void){
   C.print_hashtable();
   D.print_hashtable();
   E.print_hashtable();
-  
+
   A.diff(B);
   C.product(D);
   C.xor_sets(E);

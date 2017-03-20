@@ -6,34 +6,27 @@ Hashtable::Hashtable (char name){
 }
 
 void Hashtable::diff (Hashtable &table){
-  std::list<int>::iterator it;
+  ListElement *it, *found;
   for (int i = 0; i < m; i++){
-    for (it = table.hashtable[i].begin(); it != table.hashtable[i].end(); it++){
-      hashtable[i].remove(*it);
+    it = table.hashtable[i].head;
+    while (it != NULL){
+      found = hashtable[i].search(it->value);
+      if (found != NULL)
+	hashtable[i].remove(found);
+      it = it->next;
     }
   }
 }
 
 void Hashtable::product (Hashtable &table){
-  /* std::list<int>::iterator it, found;
-  for (int i = 0; i < m; i++){
-    for (it = hashtable[i].begin(); it != hashtable[i].end(); it++){
-      found = std::find(table.hashtable[i].begin(), table.hashtable[i].end(), *it);
-      if (found == table.hashtable[i].end()){
-	hashtable[i].remove(*it);
-      }
-    }
-    }*/
-  Hashtable copy_table('T');
-  copy_table = *this;
+  Hashtable copy_table(*this);
   copy_table.diff(table);
   this->diff(copy_table);  
 }
 
 void Hashtable::xor_sets (Hashtable &table){
-  Hashtable copy_table('T');
-  copy_table = table;
-
+  Hashtable copy_table(table);
+  
   table.diff(*this);
   this->diff(copy_table);
   this->sum(table);
@@ -45,9 +38,13 @@ void Hashtable::sum (Hashtable &table){
   for (int i = 0; i < m; i++){
     if (hashtable[i].empty() && table.hashtable[i].empty())
       continue;
-    hashtable[i].merge(table.hashtable[i]);
-    hashtable[i].sort();
-    hashtable[i].unique();
+    ListElement *it, *found;
+    it = table.hashtable[i].head;
+    while (it != NULL){
+      if ((found = hashtable[i].search(it->value)) == NULL)
+	hashtable[i].push_back(it->value);
+      it = it->next;
+    }
   }
 
   
@@ -87,7 +84,7 @@ Hashtable& Hashtable::operator= (const Hashtable& table) {
 }
 
 void Hashtable::print_hashtable (void){
-  std::list<int>::iterator it, next;
+  ListElement *it;
   cout << "Hashtable for a set " << set_name << "\n";
   cout << "index:key(s)\n";
   for (int i = 0; i < m; i++){
@@ -95,11 +92,11 @@ void Hashtable::print_hashtable (void){
     if (hashtable[i].empty())
       cout << "empty";
     
-    for (it = hashtable[i].begin(); it != hashtable[i].end(); it++){
-      cout << *it;
-      next = it;
-      next++;
-      if (next != hashtable[i].end())
+    it = hashtable[i].head;
+    while (it != NULL){
+      cout << it->value;
+      it = it->next;
+      if (it != NULL)
 	cout << " -> ";
     }
     cout << "\n";
@@ -108,12 +105,15 @@ void Hashtable::print_hashtable (void){
 }
 
 void Hashtable::generate_set (void){
-  int t;
+  int t,t2;
   std::vector<int> rand_vector;
 
   for (int i = 0; i < SET_SIZE; i++){
-    t = rand() %100;
+    t = rand() %10;
+    t2 = rand() %10;
+    t = t + t2;
     rand_vector.push_back(t);
+    cout << t;
   }
 
   std::vector<int>::iterator it;

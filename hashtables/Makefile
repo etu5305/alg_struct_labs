@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-c
 LDFLAGS=
-SOURCES=main.cpp hashtable_methods.cpp
+SOURCES=main.cpp hashtable_methods.cpp list.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=hashtables
 

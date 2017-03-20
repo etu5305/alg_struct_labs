@@ -5,12 +5,13 @@
 #include <algorithm>
 #include <stdlib.h>
 #include <vector>
+#include "list.h"
 using namespace std;
 
 class Hashtable {
   
  private:
-  std::list<int> hashtable[SET_SIZE*2];
+  List hashtable[SET_SIZE*2];
 
   int power;
   char set_name;
