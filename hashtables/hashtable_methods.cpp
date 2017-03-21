@@ -88,7 +88,7 @@ void Hashtable::print_hashtable (void){
   cout << "Hashtable for a set " << set_name << "\n";
   cout << "index:key(s)\n";
   for (int i = 0; i < m; i++){
-    cout << i << ": ";
+    cout << "[" << i << ": ";
     if (hashtable[i].empty())
       cout << "empty";
     
@@ -99,9 +99,12 @@ void Hashtable::print_hashtable (void){
       if (it != NULL)
 	cout << " -> ";
     }
-    cout << "\n";
+    
+    cout << "] ";
+    if (i != 0 && (i % 10) == 0)
+      cout << "\n";
   }
-  cout << "\n";
+  cout << "\n\n";
 }
 
 void Hashtable::generate_set (void){
