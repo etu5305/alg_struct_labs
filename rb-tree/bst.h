@@ -3,28 +3,30 @@
 
 #include <iostream>
 
-struct Node
-{
-  int key;
 
-  Node* left;
-  Node* right;
-  Node* parent;
-
-  Node(int key, Node* parent = 0)
-  {
-    this->key = key;
-    left = 0;
-    right = 0;
-    this->parent = parent;
-  }
-
-  Node() : Node(0) { }
-};
 
 class BST
 {
 public:
+    struct Node
+    {
+      int key;
+
+      Node* left;
+      Node* right;
+      Node* parent;
+
+      Node(int key, Node* parent = 0)
+      {
+        this->key = key;
+        left = 0;
+        right = 0;
+        this->parent = parent;
+      }
+
+      Node() : Node(0) { }
+    };
+
     BST(int *A, int n);
     BST();
 

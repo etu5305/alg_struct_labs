@@ -32,7 +32,7 @@ bool RB::bs_find(Node* &search, int key)
 
 bool RB::insert(int key)
 {
-    Node* search_node;
+    Node* node;
 
     if( this->root == 0 ) // Если дерево пустое
     {
@@ -40,30 +40,94 @@ bool RB::insert(int key)
         if( this->root != 0 )
         {
             count = 1;
+            this->root->color = 1; // узел - черный (свойство 2)
             return 1;
         }
         return 0;
     }
-    else if( bs_find(search_node, key) == 0 ) // Дерево не пустое | search_node = последний не пустой узел
+    else if( bs_find(node, key) == 0 ) // Дерево не пустое | node = последний не пустой узел
     {
-        if( key > search_node->key ) // Ключ больше родителя
+        if( key > node->key ) // Ключ больше родителя
         {
-            search_node->right = new Node(key, search_node);
-            if( search_node->right == 0 )
+            node->right = new Node(key, node);
+            if( node->right == 0 )
                 return 0;
             count++;
+            node->right->color = 0;
+            fix(node->right); // балансировка после вставки
             return 1;
         }
         else // Ключ меньше родительского
         {
-            search_node->left = new Node(key, search_node);
-            if( search_node->left == 0 )
+            node->left = new Node(key, node);
+            if( node->left == 0 )
                 return 0;
             count++;
+            node->left->color = 0;
+            fix(node->left); // балансировка после вставки
             return 1;
         }
     }
     return 1; // Узел с таким ключем уже существует
+}
+
+void RB::fix(Node* N) // балансировка дерева после вставки
+{
+    while( N->parent != 0 && N->parent->color == 0 )
+    {
+        Node* P = N->parent;
+        Node* G = RB::grandparent(N);
+        Node* U = RB::uncle(N);
+
+        if( P == G->left )
+        {
+            if( U->color == 0 )
+            {
+                P->color = 1;
+                U->color = 1;
+                G->color = 0;
+                N = G;
+            }
+            else
+            {
+                if( N == P->right )
+                {
+                    N = P;
+                    this->rotate_left(N);
+                }
+                P->color = 1;
+                G->color = 0;
+                this->rotate_right(G);
+            }
+        }
+        else
+        {
+            if( U->color == 0 )
+            {
+                P->color = 1;
+                U->color = 1;
+                G->color = 0;
+                N = G;
+            }
+            else
+            {
+                if( N == P->left )
+                {
+                    N = P;
+                    this->rotate_right(N);
+                }
+                P->color = 1;
+                G->color = 0;
+                this->rotate_left(G);
+            }
+        }
+    }
+    this->root->color = 1;
+}
+
+bool RB::remove_fix(Node* N) // балансировка дерева после удаления
+{
+
 }
 
 bool RB::remove(int key)
@@ -96,7 +160,11 @@ bool RB::remove(int key)
             search_node->left = tmp_node->left;
             search_node->right = tmp_node->right;
 
+
+            if( tmp_node->color == 1 )
+                remove_fix(search_node);
             delete tmp_node;
+            // remove-fixup
         }
         if( search_node->left == 0 && search_node->right == 0 ) // (1)
         {
@@ -130,6 +198,7 @@ bool RB::remove(int key)
             }
 
             delete tmp_node;
+            // remove-fixup
         }
         else // (2)
         {
@@ -143,6 +212,7 @@ bool RB::remove(int key)
             search_node->right = tmp_node->right;
 
             delete tmp_node;
+            // remove-fixup
         }
 
         count--;
@@ -178,8 +248,92 @@ void RB::print()
     show(this->root, 0);
 }
 
-void RB::build(int *A, int a, int b)
+RB::Node* RB::uncle(Node* node)
 {
+    if( node->parent != 0 )
+    {
+        if( node->parent->parent != 0 )
+        {
+            if( node->parent->parent->left == node->parent )
+            {
+                return node->parent->parent->right;
+            }
+            else
+            {
+                return node->parent->parent->left;
+            }
+        }
+    }
 
+    return 0;
 }
 
+RB::Node* RB::grandparent(Node* node)
+{
+    if( node->parent != 0 )
+    {
+        if( node->parent->parent != 0 )
+        {
+            return node->parent->parent;
+        }
+    }
+
+   return 0;
+}
+
+RB::Node* RB::sibling(Node* node)
+{
+    if( node->parent != 0 )
+    {
+        if( node == node->parent->right )
+        {
+            return node->parent->left;
+        }
+        else
+        {
+            return node->parent->right;
+        }
+    }
+
+   return 0;
+}
+
+void RB::rotate_left(Node* n)
+{
+    Node* pivot = n->right;
+
+    pivot->parent = n->parent;
+    if (n->parent != 0) {
+        if (n->parent->left==n)
+            n->parent->left = pivot;
+        else
+            n->parent->right = pivot;
+    }
+
+    n->right = pivot->left;
+    if (pivot->left != 0)
+        pivot->left->parent = n;
+
+    n->parent = pivot;
+    pivot->left = n;
+}
+
+void RB::rotate_right(Node* n)
+{
+    Node* pivot = n->left;
+
+    pivot->parent = n->parent;
+    if (n->parent != 0) {
+        if (n->parent->left==n)
+            n->parent->left = pivot;
+        else
+            n->parent->right = pivot;
+    }
+
+    n->left = pivot->right;
+    if (pivot->right != 0)
+        pivot->right->parent = n;
+
+    n->parent = pivot;
+    pivot->right = n;
+}

@@ -177,9 +177,3 @@ void BST::print()
 {
     show(this->root, 0);
 }
-
-void BST::build(int *A, int a, int b)
-{
-
-}
-
