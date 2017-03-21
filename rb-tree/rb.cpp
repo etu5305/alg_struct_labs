@@ -127,7 +127,66 @@ void RB::fix(Node* N) // балансировка дерева после вст
 
 bool RB::remove_fix(Node* N) // балансировка дерева после удаления
 {
-
+    while (N->parent != 0 && N->color == 1)
+    {
+        if( N == N->parent->left )
+        {
+            // D == 1
+            Node *w = N->parent->right;		//right
+            if (w->color == 0) {
+               w->color = 1;
+               N->parent->color = 0;
+               this->rotate_left(N->parent);	//left
+               w = N->parent->right;		//right
+            }
+            if (w->left->color == 1 && w->right->color == 1) {
+               w->color = 0;
+               N = N->parent;
+            }
+            else {
+               if (w->right->color == 1) {	//right
+                 w->left->color = 1;	//left
+                 w->color = 0;
+                 this->rotate_right(w);
+                 w = N->parent->right;		//right
+               }
+               w->color = N->parent->color;
+               N->parent->color = 1;
+               w->right->color = 1;		//right
+               this->rotate_left(N->parent);
+               N = root;
+            }
+        }
+        else
+        {
+            // D == 0
+            Node *w = N->parent->left;		//left
+            if (w->color == 0) {
+               w->color = 1;
+               N->parent->color = 0;
+               this->rotate_right(N->parent);
+               w = N->parent->left;		//left
+            }
+            if (w->left->color == 1 && w->right->color == 1) {
+               w->color = 0;
+               N = N->parent;
+            }
+            else {
+               if (w->left->color == 1) {	//left
+                 w->right->color = 1;	//right
+                 w->color = 0;
+                 this->rotate_left(w);
+                 w = N->parent->left;		//left
+               }
+               w->color = N->parent->color;
+               N->parent->color = 1;
+               w->left->color = 1;		//left
+               this->rotate_right(N->parent);
+               N = root;
+            }
+        }
+   }
+   N->color = 1;
 }
 
 bool RB::remove(int key)
@@ -163,6 +222,7 @@ bool RB::remove(int key)
 
             if( tmp_node->color == 1 )
                 remove_fix(search_node);
+
             delete tmp_node;
             // remove-fixup
         }

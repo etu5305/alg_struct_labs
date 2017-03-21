@@ -53,7 +53,9 @@ private:
 
     static Node* uncle(Node* node);
     static Node* grandparent(Node* node);
-    void fix(Node* inserted); // балансировка дерева
+    static Node* sibling(Node* node);
+    void fix(Node* node); // балансировка дерева
+    bool remove_fix(Node* N);
 
     Node* root; // корень
     int count; // количество узлов в дереве
