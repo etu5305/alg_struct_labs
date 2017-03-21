@@ -1,6 +1,6 @@
 #include "hashtable.h"
 int main (void){
-  
+  srand(time(0));
   Hashtable A('A'), B('B'), C('C'), D('D'), E('E');
   int ans=2;
   do{

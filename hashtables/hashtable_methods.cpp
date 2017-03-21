@@ -105,15 +105,12 @@ void Hashtable::print_hashtable (void){
 }
 
 void Hashtable::generate_set (void){
-  int t,t2;
+  int t;
   std::vector<int> rand_vector;
 
   for (int i = 0; i < SET_SIZE; i++){
-    t = rand() %10;
-    t2 = rand() %10;
-    t = t + t2;
+    t = rand() %100;
     rand_vector.push_back(t);
-    cout << t;
   }
 
   std::vector<int>::iterator it;
