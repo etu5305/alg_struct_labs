@@ -5,6 +5,7 @@ RB::RB()
   count = 0;
   root = 0;
   current = 0;
+  end = 0;
 }
 
 bool RB::bs_find(Node* &search, int key)
@@ -82,7 +83,7 @@ void RB::fix(Node* N) // балансировка дерева после вст
 
         if( P == G->left )
         {
-            if( U->color == 0 )
+            if( U != 0 && U->color == 0 )
             {
                 P->color = 1;
                 U->color = 1;
@@ -95,15 +96,18 @@ void RB::fix(Node* N) // балансировка дерева после вст
                 {
                     N = P;
                     this->rotate_left(N);
+                    P = N->parent;
                 }
                 P->color = 1;
                 G->color = 0;
                 this->rotate_right(G);
+                if( G == this->root )
+                    this->root = P;
             }
         }
         else
         {
-            if( U->color == 0 )
+            if( U != 0 && U->color == 0 )
             {
                 P->color = 1;
                 U->color = 1;
@@ -116,15 +120,20 @@ void RB::fix(Node* N) // балансировка дерева после вст
                 {
                     N = P;
                     this->rotate_right(N);
+                    P = N->parent;
                 }
                 P->color = 1;
                 G->color = 0;
                 this->rotate_left(G);
+                if( G == this->root )
+                    this->root = P;
             }
         }
     }
     this->root->color = 1;
 }
+
+
 
 bool RB::remove_fix(Node* N) // балансировка дерева после удаления
 {
@@ -407,6 +416,7 @@ int RB::get_current_value (){
 bool RB::pop (){
   if (root == 0) // дерево пусто
     return false;
+  
   if (current == 0){
     // ищём самый левый и нижний узел (лист)
     // идём в цикле от корня, выбирая каждый раз левого потомка, как только его не окажется - мы нашли самый левый и нижний узел (лист)
@@ -415,6 +425,7 @@ bool RB::pop (){
     while (current->left != 0){
       current = current->left;
     }
+    end=0;
     return true;
   }else{
     // если есть правый потомок - спускаемся в него и ищём там самый левый узел (лист)
@@ -423,6 +434,7 @@ bool RB::pop (){
       while (current->left != 0){
 	current = current->left;
       }
+      end=0;
       return true;
     }else if(current->parent !=0){ // иначе, если есть родитель, поднимаемся вверх, пока не встретим родителя с key > key текущего
       int key = current->key;
@@ -432,12 +444,22 @@ bool RB::pop (){
 	current = current->parent;
 	if (current == 0){
 	  current = current_cpy; // не теряем последний элемент
+	  end = 1;
 	  return false; // цэ был последний элемент в дереве
 	}
       }
+      end=0;
       return true;
     }else{
+      end = 1;
       return false; // мы находимся в корне, правого поддерева нет
     }
     }
+}
+
+bool RB::is_end (){
+  if (root == 0)
+    return true;
+  else
+    return end;
 }

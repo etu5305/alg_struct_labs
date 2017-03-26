@@ -44,6 +44,8 @@ public:
     void print();
     int get_current_value(); 
     bool pop(); // выбирает следующий элемент за тем, что установлен в current, устанавливает указатель на него в current
+    bool is_end(); // проверяет, последний ли current элемент в дереве
+    void pop_clear(){ end=0; current=0; }
     
 
 private:
@@ -60,6 +62,7 @@ private:
     void fix(Node* node); // балансировка дерева
     bool remove_fix(Node* N);
     Node* current; // устанавливается при вызове pop(), для получения значения в узле используется get_current_value()
+    bool end; // флаг, который устанавливается, когда во время вызова pop() был достигнут конец дерева
 
     Node* root; // корень
     int count; // количество узлов в дереве
