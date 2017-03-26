@@ -16,7 +16,7 @@ int main()
     tree.insert(9);
     tree.insert(23);
 
-     tree2.insert(22);
+     tree2.insert(9);
     tree2.insert(23);
     tree2.insert(1);
     tree2.insert(10);
@@ -25,7 +25,7 @@ int main()
 
     vector<int> res;
     vector<int>::iterator it;
-    rb_diff(res,tree,tree2);
+    rb_xor(res,tree,tree2);
 
     for(it=res.begin(); it < res.end(); it++) {
       cout << *it << " ";
