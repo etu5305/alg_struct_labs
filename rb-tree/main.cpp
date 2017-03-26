@@ -7,14 +7,14 @@ using namespace std;
 int main()
 {
   RB tree,tree2;
-    //tree.insert(2);
+    tree.insert(2);
     tree.insert(5);
     tree.insert(4);
     tree.insert(7);
     tree.insert(6);
     tree.insert(10);
     tree.insert(9);
-    tree.insert(19);
+    tree.insert(23);
 
     tree2.insert(22);
     tree2.insert(23);
@@ -25,7 +25,7 @@ int main()
 
     vector<int> res;
     vector<int>::iterator it;
-    rb_sum(res,tree,tree2);
+    rb_product(res,tree,tree2);
 
     for(it=res.begin(); it < res.end(); it++) {
       cout << *it << " ";

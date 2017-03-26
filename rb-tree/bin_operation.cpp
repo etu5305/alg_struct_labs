@@ -2,7 +2,7 @@
 #include <vector>
 
 void rb_sum (std::vector<int> &result, RB &first, RB &second){
-  first.pop_clear();// начинаем просматривать сначала
+  first.pop_clear();// начинаем просматривать с начала
   second.pop_clear();
   first.pop();
   second.pop(); // получаем первые элементы деревьев
@@ -34,8 +34,26 @@ void rb_sum (std::vector<int> &result, RB &first, RB &second){
   }
 }
 
-void rb_product (){
-  ;
+void rb_product (std::vector<int> &result, RB &first, RB &second){
+  first.pop_clear();// начинаем просматривать с начала
+  second.pop_clear();
+  first.pop();
+  second.pop(); // получаем первые элементы деревьев
+  int key1,key2;
+  while (!(first.is_end() || second.is_end())){ // пока не достигнут конец одного из деревьев
+    key1 = first.get_current_value();
+    key2 = second.get_current_value();
+    
+    if (key1 < key2){
+      first.pop();
+    }else if(key1 > key2){
+      second.pop();
+    }else{ // key1 == key2
+      result.push_back(key1);
+      first.pop();
+      second.pop();
+    }
+  }
 }
 
 void rb_diff (){
