@@ -42,6 +42,9 @@ public:
     bool insert(int key);
     bool remove(int key);
     void print();
+    int get_current_value(); 
+    bool pop(); // выбирает следующий элемент за тем, что установлен в current, устанавливает указатель на него в current
+    
 
 private:
     bool bs_find(Node* &search, int key);
@@ -56,6 +59,7 @@ private:
     static Node* sibling(Node* node);
     void fix(Node* node); // балансировка дерева
     bool remove_fix(Node* N);
+    Node* current; // устанавливается при вызове pop(), для получения значения в узле используется get_current_value()
 
     Node* root; // корень
     int count; // количество узлов в дереве

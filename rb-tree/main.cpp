@@ -1,11 +1,11 @@
 #include <iostream>
-#include <bst.h>
+#include "rb.h"
 
 using namespace std;
 
 int main()
 {
-    BST tree;
+    RB tree;
 
     tree.insert(5);
     tree.insert(4);
@@ -15,11 +15,17 @@ int main()
     tree.insert(9);
     tree.insert(11);
 
-    tree.remove(7);
-    tree.remove(9);
-
     tree.print();
 
+    cout << endl;
+    while(tree.pop()){
+      cout << tree.get_current_value() << " ";
+    }
+
+
+    cout << endl;
+    
+    
     return 0;
 }
 
