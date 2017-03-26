@@ -8,6 +8,36 @@ RB::RB()
   end = 0;
 }
 
+RB::RB(std::vector<int> &A){ // ожидается, что элементы уже упорядочены
+  current = 0;
+  end = 0;
+   // A.size() is O(1) complexity
+  this->count = A.size();
+  int index = (this->count-1) / 2;
+  this->root = new Node(A[index]);
+  this->root->parent = 0;
+  this->root->color = 1;
+  this->root->left = recur_insert(A, this->root, 0, index-1, 1);
+  this->root->right = recur_insert(A, this->root, index + 1,  this->count - 1, 1);
+}
+
+RB::Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end, bool clr){
+  if (end < start) return 0;
+  else if (end == start){
+    Node *s = new Node(A[start], par);
+    s->color = 1;
+    return s;
+  }
+  int index = (end+start) / 2;
+  Node *s = new Node(A[index], par);
+  s->color = clr ? 0 : 1;
+  s->left = recur_insert(A, s, start, index-1, s->color);
+  s->right = recur_insert(A, s, index + 1, end, s->color);
+  if (s->left == 0 && s->right == 0)
+    s->color = 1; // лист
+  return s;
+}
+
 bool RB::bs_find(Node* &search, int key)
 {
     Node* search_node = this->root;

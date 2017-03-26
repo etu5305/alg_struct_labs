@@ -27,10 +27,13 @@ int main()
     vector<int>::iterator it;
     rb_xor(res,tree,tree2);
 
-    for(it=res.begin(); it < res.end(); it++) {
-      cout << *it << " ";
+    RB tree_res = RB(res);
+
+    while (tree_res.pop()){
+      cout << tree_res.get_current_value() << " ";
     }
 
+    tree_res.print();
 
     cout << endl;
     

@@ -1,6 +1,6 @@
 #ifndef RB_H
 #define RB_H
-
+#include <vector>
 #include <iostream>
 
 /* Свойства Красно-Чёрного Дерева
@@ -35,7 +35,7 @@ public:
       Node() : Node(0) { }
     };
 
-    RB(int *A, int n);
+    RB(std::vector<int> &A);
     RB();
 
     bool find(int key);
@@ -55,6 +55,7 @@ private:
     void build(int *A, int m);
     void rotate_left(Node* n);
     void rotate_right(Node* n);
+    Node* recur_insert (std::vector<int> &A, Node *par, int start, int end, bool clr);
 
     static Node* uncle(Node* node);
     static Node* grandparent(Node* node);
