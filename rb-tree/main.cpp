@@ -6,34 +6,70 @@ using namespace std;
 
 int main()
 {
-  RB tree,tree2;
-    tree.insert(2);
-    tree.insert(1);
-    tree.insert(4);
-    tree.insert(7);
-    tree.insert(6);
-    tree.insert(10);
-    tree.insert(9);
-    tree.insert(23);
+  srand(time(0));
+  RB A('A'), B('B'), C('C'), D('D'), E('E');
+  int ans=2;
+  do{
+    cout << "Would you like to enter (1) sets yourself or to generate (2) random sets ? (1/2) ";
+    cin.clear();
+    cin.sync();
+    cin >> ans;
+    if ((ans != 1) && (ans != 2)){
+      cout << "Please, you must choose between 1 and 2. \n";
+    }
+  }while ((ans != 1) && (ans != 2));
+  
+  cout << "\n";
 
-     tree2.insert(9);
-    tree2.insert(23);
-    tree2.insert(1);
-    tree2.insert(10);
-    //tree.print();
-
+  if (ans == 1){
+    A.input_set();
+    B.input_set();
+    C.input_set();
+    D.input_set();
+    E.input_set();
+    
+  }else{
+    A.generate_set();
+    B.generate_set();
+    C.generate_set();
+    D.generate_set();
+    E.generate_set();
+  }
+  A.print();
+  B.print();
+  C.print();
+  D.print();
+  E.print();
 
     vector<int> res;
     vector<int>::iterator it;
-    rb_xor(res,tree,tree2);
+    
+    rb_diff(res,A,B);
+    RB* tree_res1 = new RB('F',res);
+    res.clear();
 
-    RB tree_res = RB(res);
+    rb_product(res,C,D);
+    RB* tree_res2 = new RB('F',res);
+    res.clear();
 
-    while (tree_res.pop()){
-      cout << tree_res.get_current_value() << " ";
+    rb_xor(res,*tree_res2,E);
+    delete tree_res2;
+    tree_res2 = new RB('F',res);
+    res.clear();
+
+    rb_sum(res, *tree_res1, *tree_res2);
+    delete tree_res1;
+    delete tree_res2;
+    tree_res1 = new RB('F',res);
+    res.clear();
+
+    cout << "Resulting tree:" << endl;
+    tree_res1->pop_clear();
+    while (tree_res1->pop()){
+      cout << tree_res1->get_current_value() << " ";
     }
-
-    tree_res.print();
+cout << endl;
+    tree_res1->print();
 
     cout << endl;
     

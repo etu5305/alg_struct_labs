@@ -1,17 +1,21 @@
 #include "rb.h"
+#include <algorithm>
+using namespace std;
 
-RB::RB()
+RB::RB(char letter)
 {
   count = 0;
   root = 0;
   current = 0;
   end = 0;
+  name = letter;
 }
 
-RB::RB(std::vector<int> &A){ // ожидается, что элементы уже упорядочены
+RB::RB(char letter, std::vector<int> &A){ // ожидается, что элементы уже упорядочены
   current = 0;
   end = 0;
   count = 0;
+  name = letter;
    // A.size() is O(1) complexity
   int index = (A.size()-1) / 2;
   this->root = new Node(A[index]);
@@ -350,7 +354,9 @@ void RB::show(Node* node, int h)
 
 void RB::print()
 {
-    show(this->root, 0);
+  cout << "Tree " << name << ":" << endl;
+  show(this->root, 0);
+  cout << endl;
 }
 
 RB::Node* RB::uncle(Node* node)
@@ -497,4 +503,48 @@ bool RB::is_end (){
     return true;
   else
     return end;
+}
+
+void RB::input_set (void){
+  int size=0, element;
+  
+  cout << "Enter set named " << this->name << "\n";
+
+  do {
+    cout << "Enter size of set: ";
+    cin.clear();
+    cin.sync();
+    cin >> size;
+    if ((size < 0)){
+	cout << "Incorrect size of set. It must be a natural number larger than zero.\n";
+      }
+  }while ((size < 0));
+
+    cout << "Now enter the elements of set (one-by-one): ";
+    for (int i = 0; i < size; i++){
+      cin.clear();
+      cin.sync();
+      cin >> element;
+
+      this->insert (element);
+    }
+}
+
+void RB::generate_set (void){
+  int t;
+  std::vector<int> rand_vector;
+
+  for (int i = 0; i < 5; i++){
+    t = rand() %10;
+    rand_vector.push_back(t);
+  }
+
+  std::vector<int>::iterator it;
+  std::sort (rand_vector.begin(), rand_vector.end());
+  it = std::unique (rand_vector.begin(), rand_vector.end());             
+  rand_vector.resize( std::distance(rand_vector.begin(),it));
+
+  for (it = rand_vector.begin(); it != rand_vector.end(); it++){
+    this->insert (*it);
+  }
 }

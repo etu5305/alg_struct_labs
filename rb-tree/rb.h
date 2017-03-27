@@ -35,8 +35,8 @@ public:
       Node() : Node(0) { }
     };
 
-    RB(std::vector<int> &A);
-    RB();
+    RB(char letter, std::vector<int> &A);
+    RB(char letter);
 
     bool find(int key);
     bool insert(int key);
@@ -46,6 +46,9 @@ public:
     bool pop(); // выбирает следующий элемент за тем, что установлен в current, устанавливает указатель на него в current
     bool is_end(); // проверяет, последний ли current элемент в дереве
     void pop_clear(){ end=0; current=0; }
+    char get_name() { return this->name; }
+    void input_set (void);
+    void generate_set (void);
     
 
 private:
@@ -56,6 +59,7 @@ private:
     void rotate_left(Node* n);
     void rotate_right(Node* n);
     Node* recur_insert (std::vector<int> &A, Node *par, int start, int end);
+    char name; // имя дерева
 
     static Node* uncle(Node* node);
     static Node* grandparent(Node* node);

@@ -2,6 +2,7 @@
 int main (void){
   srand(time(0));
   Hashtable A('A'), B('B'), C('C'), D('D'), E('E');
+
   int ans=2;
   do{
     cout << "Would you like to enter (1) sets yourself or to generate (2) random sets ? (1/2) ";
