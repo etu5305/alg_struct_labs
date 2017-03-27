@@ -55,7 +55,7 @@ private:
     void build(int *A, int m);
     void rotate_left(Node* n);
     void rotate_right(Node* n);
-    Node* recur_insert (std::vector<int> &A, Node *par, int start, int end, bool clr);
+    Node* recur_insert (std::vector<int> &A, Node *par, int start, int end);
 
     static Node* uncle(Node* node);
     static Node* grandparent(Node* node);

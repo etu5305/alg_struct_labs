@@ -11,30 +11,35 @@ RB::RB()
 RB::RB(std::vector<int> &A){ // ожидается, что элементы уже упорядочены
   current = 0;
   end = 0;
+  count = 0;
    // A.size() is O(1) complexity
-  this->count = A.size();
-  int index = (this->count-1) / 2;
+  int index = (A.size()-1) / 2;
   this->root = new Node(A[index]);
   this->root->parent = 0;
   this->root->color = 1;
-  this->root->left = recur_insert(A, this->root, 0, index-1, 1);
-  this->root->right = recur_insert(A, this->root, index + 1,  this->count - 1, 1);
+  count++;
+  this->root->left = recur_insert(A, this->root, 0, index-1);
+  this->root->right = recur_insert(A, this->root, index + 1,  A.size() - 1);
 }
 
-RB::Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end, bool clr){
+RB::Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end){
   if (end < start) return 0;
-  else if (end == start){
+  else if (end == start){ // лист
     Node *s = new Node(A[start], par);
+    this->count++;
     s->color = 1;
+    if ((A.size() % 2) == 0 && this->count == A.size()) // если кол-во элементов чётное и это последний элемент, то родителя следует перекрасить в красный
+      par->color = 0;
     return s;
   }
+  // узел
+  this->count++;
   int index = (end+start) / 2;
   Node *s = new Node(A[index], par);
-  s->color = clr ? 0 : 1;
-  s->left = recur_insert(A, s, start, index-1, s->color);
-  s->right = recur_insert(A, s, index + 1, end, s->color);
-  if (s->left == 0 && s->right == 0)
-    s->color = 1; // лист
+  s->color = 1; // всё узлы черные (кроме родителя последнего листа в случае если число узлов (листов в т.ч.) чётное)
+  s->left = recur_insert(A, s, start, index-1);
+  s->right = recur_insert(A, s, index + 1, end);
+  
   return s;
 }
 
