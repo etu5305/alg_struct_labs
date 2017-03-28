@@ -16,14 +16,17 @@ RB::RB(char letter, std::vector<int> &A){ // ожидается, что элем
   end = 0;
   count = 0;
   name = letter;
-   // A.size() is O(1) complexity
-  int index = (A.size()-1) / 2;
-  this->root = new Node(A[index]);
-  this->root->parent = 0;
-  this->root->color = 1;
-  count++;
-  this->root->left = recur_insert(A, this->root, 0, index-1);
-  this->root->right = recur_insert(A, this->root, index + 1,  A.size() - 1);
+  root = 0;
+  if (!A.empty()){
+    // A.size() is O(1) complexity
+    int index = (A.size()-1) / 2;
+    this->root = new Node(A[index]);
+    this->root->parent = 0;
+    this->root->color = 1;
+    count++;
+    this->root->left = recur_insert(A, this->root, 0, index-1);
+    this->root->right = recur_insert(A, this->root, index + 1,  A.size() - 1);
+  }
 }
 
 RB::Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end){
