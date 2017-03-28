@@ -8,33 +8,6 @@ int main()
 {
   srand(time(0));
   RB A('A'), B('B'), C('C'), D('D'), E('E');
-  A.insert(0);
-  A.insert(2);
-  A.insert(5);
-  A.insert(9);
-
-  B.insert(0);
-  B.insert(1);
-  B.insert(3);
-  B.insert(7);
-  B.insert(9);
-
-  C.insert(0);
-  C.insert(2);
-  C.insert(5);
-  C.insert(9);
-
-  D.insert(1);
-  D.insert(3);
-  D.insert(6);
-  D.insert(8);
-
-  E.insert(3);
-  E.insert(5);
-  E.insert(6);
-  E.insert(8);
-  E.insert(9);
-  /*
   int ans=2;
   do{
     cout << "Would you like to enter (1) sets yourself or to generate (2) random sets ? (1/2) ";
@@ -61,7 +34,7 @@ int main()
     C.generate_set();
     D.generate_set();
     E.generate_set();
-    }*/
+    }
   A.print();
   B.print();
   C.print();
