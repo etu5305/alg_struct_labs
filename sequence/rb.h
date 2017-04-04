@@ -58,7 +58,7 @@ class RB
  private:
   friend void concat(RB&, RB&);
   friend void merge(RB&, RB&);
-  friend void change(RB**,RB&, RB&,int);
+  friend RB* change(RB&, RB&,int);
   
   bool bs_find(Node* &search, int key);
   void printnode(int key, int h);

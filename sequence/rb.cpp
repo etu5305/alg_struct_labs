@@ -560,15 +560,14 @@ void merge (RB& tree1, RB& tree2)
 }
 
 
-void change (RB **result, RB &tree1, RB& tree2, int p)
+RB* change (RB &tree1, RB& tree2, int p)
 {
   Node *head1 = tree1.sequence, *head2 = tree2.sequence;
-  *result = new RB(tree1.get_name());
-  RB *tree3 = *result;
+  RB *tree3 = new RB(tree1.name);
   int key;
 
   if (p >= tree1.count && head1 == 0)
-    return;
+    return tree3;
   
   for (int i = 0; ; i++) {
     if (i < p && head1 != 0){
@@ -583,9 +582,9 @@ void change (RB **result, RB &tree1, RB& tree2, int p)
       key = head1->key;
       head1 = head1->s_next;
     }else
-      return;
+      return tree3;
 
     tree3->insert(key);
   }
-  
+  return tree3;
 }

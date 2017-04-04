@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
   RB *tree3;
   
-  change(&tree3, tree2, tree1, 2);
+  tree3 = change(tree2, tree1, 2);
 
   tree3->print();
   tree3->print_sequence();
