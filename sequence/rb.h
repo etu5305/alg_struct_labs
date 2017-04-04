@@ -58,7 +58,7 @@ class RB
  private:
   friend void concat(RB&, RB&);
   friend void merge(RB&, RB&);
-  friend void change(RB&, RB&);
+  friend void change(RB**,RB&, RB&,int);
   
   bool bs_find(Node* &search, int key);
   void printnode(int key, int h);
@@ -67,7 +67,7 @@ class RB
   void rotate_left(Node* n);
   void rotate_right(Node* n);
   Node* recur_insert (std::vector<int> &A, Node *par, int start, int end);
-  char name; // имя дерева
+  
 
   static Node* uncle(Node* node);
   static Node* grandparent(Node* node);
@@ -81,6 +81,7 @@ class RB
   Node* sequence_end; // последний элемент последовательности
   Node* root; // корень
   int count; // количество узлов в дереве
+  char name; // имя дерева
 };
 
 

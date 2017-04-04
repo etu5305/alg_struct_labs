@@ -7,7 +7,7 @@ void merge_sort(Node **h) // сортировка слиянием
 {
   Node *head = *h,*a,*b;
 
-  if ( head == NULL || head->s_next == 0 )
+  if (head == NULL || head->s_next == 0)
     return;
 
   split_half(head, &a, &b);
@@ -22,16 +22,16 @@ void split_half(Node *head, Node **a, Node **b) // разбивка списка
 {
   Node* fast;
   Node* slow;
-  if ( head == 0 || head->s_next == 0) {
+  if (head == 0 || head->s_next == 0) {
     *a = head;
     *b = 0;
   } else {
     slow = head;
     fast = head->s_next;
  
-    while(fast != 0) {
+    while (fast != 0) {
       fast = fast->s_next;
-      if(fast != 0) {
+      if (fast != 0) {
         slow = slow->s_next;
         fast = fast->s_next;
       }
@@ -55,11 +55,11 @@ Node* merge_two_sorted_lists(Node *a, Node *b) // совмещает два от
   if (a->key <= b->key) {
     result = a;
     result->s_next = merge_two_sorted_lists(a->s_next, b);
-    if ( result->s_next != 0 ) (result->s_next)->s_prev = result;
+    if (result->s_next != 0) (result->s_next)->s_prev = result;
   } else {
     result = b;
     result->s_next = merge_two_sorted_lists(a, b->s_next);
-    if ( result->s_next != 0 ) (result->s_next)->s_prev = result;
+    if (result->s_next != 0) (result->s_next)->s_prev = result;
   }
   return result;
 }
