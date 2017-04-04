@@ -1,5 +1,4 @@
 #include "rb.h"
-#include "merge_sort.cpp"
 #include <algorithm>
 using namespace std;
 
