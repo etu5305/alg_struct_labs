@@ -21,12 +21,17 @@ int main(int argc, char *argv[])
   tree2.print();
   tree2.print_sequence();
 
-  RB *tree3;
+  merge(tree1, tree2);
+
+  tree1.print();
+  tree1.print_sequence();
+
+  /*RB *tree3;
   
   tree3 = change(tree2, tree1, 2);
 
   tree3->print();
-  tree3->print_sequence();
+  tree3->print_sequence();*/
   
   return 1;
 }

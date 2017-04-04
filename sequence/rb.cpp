@@ -548,15 +548,31 @@ void concat (RB& tree1, RB& tree2)
   }
 }
 
-void merge (RB& tree1, RB& tree2)
+void sort(RB& tree, Node* node)
+{
+  if (node == 0)
+	return;
+
+  sort(tree, node->left);
+
+  if (tree.sequence_end == 0)
+	tree.sequence = node;
+  else
+	tree.sequence_end->s_next = node;
+
+  node->s_next = 0;
+  node->s_prev = tree.sequence_end;
+  tree.sequence_end = node;
+
+  sort(tree, node->right);
+}
+
+void merge(RB& tree1, RB& tree2)
 {
   concat(tree1, tree2);
-  // sort
-  merge_sort(&(tree1.sequence));
-  Node *head = tree1.sequence;
-  while (head->s_next != 0)
-    head = head->s_next;
-  tree1.sequence_end = head;
+  tree1.sequence = 0;
+  tree1.sequence_end = 0;
+  sort(tree1, tree1.root);
 }
 
 
