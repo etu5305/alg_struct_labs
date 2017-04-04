@@ -25,8 +25,8 @@ RB::RB(char letter, std::vector<int> &A){ // ожидается, что элем
     // A.size() is O(1) complexity
     int index = (A.size()-1) / 2;
     root = new Node(A[index]);
-	sequence = root;
-	sequence_end = root;
+        sequence = root;
+        sequence_end = root;
     root->parent = 0;
     root->color = 1;
     count++;
@@ -39,8 +39,8 @@ Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end){
   if (end < start) return 0;
   else if (end == start) { // лист
     Node *s = new Node(A[start], par, sequence_end);
-	sequence_end->s_next = s;
-	sequence_end = s;
+        sequence_end->s_next = s;
+        sequence_end = s;
     this->count++;
     s->color = 1;
     if ((A.size() % 2) == 0 && this->count == A.size()) // если кол-во элементов чётное и это последний элемент, то родителя следует перекрасить в красный
@@ -66,10 +66,10 @@ bool RB::bs_find(Node* &search, int key)
   bool found = 0;
 
   while( search_node != 0 ) {
-	if(search_node->key == key)
-	  found = 1;
-	search = search_node;
-	search_node = (key >= search_node->key) ? search_node->right : search_node->left;
+        if(search_node->key == key)
+          found = 1;
+        search = search_node;
+        search_node = (key >= search_node->key) ? search_node->right : search_node->left;
   }
 
   return found;
@@ -80,40 +80,40 @@ bool RB::insert(int key)
   Node* node;
 
   if( root == 0 ) { // Если дерево пустое
-	root = new Node(key);
-	sequence = root;
-	sequence_end = root;
-	if( root != 0 ) {
-	  count = 1;
-	  root->color = 1; // узел - черный (свойство 2)
-	  return 1;
-	}
-	return 0;
+        root = new Node(key);
+        sequence = root;
+        sequence_end = root;
+        if( root != 0 ) {
+          count = 1;
+          root->color = 1; // узел - черный (свойство 2)
+          return 1;
+        }
+        return 0;
   }
   else { // Дерево не пустое | node = последний не пустой узел
-	bs_find(node, key);
-	if( key >= node->key ) { // Ключ больше родителя 
-	  node->right = new Node(key, node, sequence_end);
-	  sequence_end->s_next = node->right;
-	  sequence_end = node->right;
-	  if( node->right == 0 )
-		return 0;
-	  count++;
-	  node->right->color = 0;
-	  fix(node->right); // балансировка после вставки
-	  return 1;
-	}
-	else { // Ключ меньше родительского
-	  node->left = new Node(key, node, sequence_end);
-	  sequence_end->s_next = node->left;
-	  sequence_end = node->left;
-	  if( node->left == 0 )
-		return 0;
-	  count++;
-	  node->left->color = 0;
-	  fix(node->left); // балансировка после вставки
-	  return 1;
-	}
+        bs_find(node, key);
+        if( key >= node->key ) { // Ключ больше родителя 
+          node->right = new Node(key, node, sequence_end);
+          sequence_end->s_next = node->right;
+          sequence_end = node->right;
+          if( node->right == 0 )
+                return 0;
+          count++;
+          node->right->color = 0;
+          fix(node->right); // балансировка после вставки
+          return 1;
+        }
+        else { // Ключ меньше родительского
+          node->left = new Node(key, node, sequence_end);
+          sequence_end->s_next = node->left;
+          sequence_end = node->left;
+          if( node->left == 0 )
+                return 0;
+          count++;
+          node->left->color = 0;
+          fix(node->left); // балансировка после вставки
+          return 1;
+        }
   }
   return 1; // Узел с таким ключем уже существует
 }
@@ -121,50 +121,50 @@ bool RB::insert(int key)
 void RB::fix(Node* N) // балансировка дерева после вставки
 {
   while( N->parent != 0 && N->parent->color == 0 ) {
-	Node* P = N->parent;
-	Node* G = RB::grandparent(N);
-	Node* U = RB::uncle(N);
+        Node* P = N->parent;
+        Node* G = RB::grandparent(N);
+        Node* U = RB::uncle(N);
 
-	if( P == G->left ) {
-	  if( U != 0 && U->color == 0 ) {
-		P->color = 1;
-		U->color = 1;
-		G->color = 0;
-		N = G;
-	  }
-	  else {
-		if( N == P->right ) {
-		  N = P;
-		  this->rotate_left(N);
-		  P = N->parent;
-		}
-		P->color = 1;
-		G->color = 0;
-		this->rotate_right(G);
-		if( G == this->root )
-		  this->root = P;
-	  }
-	}
-	else {
-	  if( U != 0 && U->color == 0 ) {
-		P->color = 1;
-		U->color = 1;
-		G->color = 0;
-		N = G;
-	  }
-	  else {
-		if( N == P->left ) {
-		  N = P;
-		  this->rotate_right(N);
-		  P = N->parent;
-		}
-		P->color = 1;
-		G->color = 0;
-		this->rotate_left(G);
-		if( G == this->root )
-		  this->root = P;
-	  }
-	}
+        if( P == G->left ) {
+          if( U != 0 && U->color == 0 ) {
+                P->color = 1;
+                U->color = 1;
+                G->color = 0;
+                N = G;
+          }
+          else {
+                if( N == P->right ) {
+                  N = P;
+                  this->rotate_left(N);
+                  P = N->parent;
+                }
+                P->color = 1;
+                G->color = 0;
+                this->rotate_right(G);
+                if( G == this->root )
+                  this->root = P;
+          }
+        }
+        else {
+          if( U != 0 && U->color == 0 ) {
+                P->color = 1;
+                U->color = 1;
+                G->color = 0;
+                N = G;
+          }
+          else {
+                if( N == P->left ) {
+                  N = P;
+                  this->rotate_right(N);
+                  P = N->parent;
+                }
+                P->color = 1;
+                G->color = 0;
+                this->rotate_left(G);
+                if( G == this->root )
+                  this->root = P;
+          }
+        }
   }
   this->root->color = 1;
 }
@@ -174,60 +174,60 @@ void RB::fix(Node* N) // балансировка дерева после вст
 bool RB::remove_fix(Node* N) // балансировка дерева после удаления
 {
   while (N->parent != 0 && N->color == 1) {
-	if( N == N->parent->left ) {
-	  // D == 1
-	  Node *w = N->parent->right;		//right
-	  if (w->color == 0) {
-		w->color = 1;
-		N->parent->color = 0;
-		this->rotate_left(N->parent);	//left
-		w = N->parent->right;		//right
-	  }
-	  if (w->left->color == 1 && w->right->color == 1) {
-		w->color = 0;
-		N = N->parent;
-	  }
-	  else {
-		if (w->right->color == 1) {	//right
-		  w->left->color = 1;	//left
-		  w->color = 0;
-		  this->rotate_right(w);
-		  w = N->parent->right;		//right
-		}
-		w->color = N->parent->color;
-		N->parent->color = 1;
-		w->right->color = 1;		//right
-		this->rotate_left(N->parent);
-		N = root;
-	  }
-	}
-	else {
-	  // D == 0
-	  Node *w = N->parent->left;		//left
-	  if (w->color == 0) {
-		w->color = 1;
-		N->parent->color = 0;
-		this->rotate_right(N->parent);
-		w = N->parent->left;		//left
-	  }
-	  if (w->left->color == 1 && w->right->color == 1) {
-		w->color = 0;
-		N = N->parent;
-	  }
-	  else {
-		if (w->left->color == 1) {	//left
-		  w->right->color = 1;	//right
-		  w->color = 0;
-		  this->rotate_left(w);
-		  w = N->parent->left;		//left
-		}
-		w->color = N->parent->color;
-		N->parent->color = 1;
-		w->left->color = 1;		//left
-		this->rotate_right(N->parent);
-		N = root;
-	  }
-	}
+        if( N == N->parent->left ) {
+          // D == 1
+          Node *w = N->parent->right;           //right
+          if (w->color == 0) {
+                w->color = 1;
+                N->parent->color = 0;
+                this->rotate_left(N->parent);   //left
+                w = N->parent->right;           //right
+          }
+          if (w->left->color == 1 && w->right->color == 1) {
+                w->color = 0;
+                N = N->parent;
+          }
+          else {
+                if (w->right->color == 1) {     //right
+                  w->left->color = 1;   //left
+                  w->color = 0;
+                  this->rotate_right(w);
+                  w = N->parent->right;         //right
+                }
+                w->color = N->parent->color;
+                N->parent->color = 1;
+                w->right->color = 1;            //right
+                this->rotate_left(N->parent);
+                N = root;
+          }
+        }
+        else {
+          // D == 0
+          Node *w = N->parent->left;            //left
+          if (w->color == 0) {
+                w->color = 1;
+                N->parent->color = 0;
+                this->rotate_right(N->parent);
+                w = N->parent->left;            //left
+          }
+          if (w->left->color == 1 && w->right->color == 1) {
+                w->color = 0;
+                N = N->parent;
+          }
+          else {
+                if (w->left->color == 1) {      //left
+                  w->right->color = 1;  //right
+                  w->color = 0;
+                  this->rotate_left(w);
+                  w = N->parent->left;          //left
+                }
+                w->color = N->parent->color;
+                N->parent->color = 1;
+                w->left->color = 1;             //left
+                this->rotate_right(N->parent);
+                N = root;
+          }
+        }
   }
   N->color = 1;
 }
@@ -237,81 +237,81 @@ bool RB::remove(int key)
   Node* search_node;
   Node *tmp_node;
   if( this->bs_find(search_node, key) == 1) { // узел с ключем key существует | search_node = узел с ключем key
-	/* Случаи:
-	   0) удаляем корень
-	   1) нету дочерних узлов
-	   2) один дочерний узел
-	   3) два дочерних узла
-	   1. левый узел правого поддерева отсутствует
-	   2. левый узел правого поддерева присутствует
-	*/
+        /* Случаи:
+           0) удаляем корень
+           1) нету дочерних узлов
+           2) один дочерний узел
+           3) два дочерних узла
+           1. левый узел правого поддерева отсутствует
+           2. левый узел правого поддерева присутствует
+        */
 
-	if( search_node->parent == 0 ) { // (0)
-	  tmp_node = ( search_node->right != 0 ) ? search_node->right : search_node->left;
+        if( search_node->parent == 0 ) { // (0)
+          tmp_node = ( search_node->right != 0 ) ? search_node->right : search_node->left;
 
-	  if( tmp_node == 0 ) { // корень - последний узел
-		this->count = 0;
-		delete search_node;
-		return 1;
-	  }
+          if( tmp_node == 0 ) { // корень - последний узел
+                this->count = 0;
+                delete search_node;
+                return 1;
+          }
 
-	  search_node->key = tmp_node->key;
-	  search_node->left = tmp_node->left;
-	  search_node->right = tmp_node->right;
+          search_node->key = tmp_node->key;
+          search_node->left = tmp_node->left;
+          search_node->right = tmp_node->right;
 
 
-	  if( tmp_node->color == 1 )
-		remove_fix(search_node);
+          if( tmp_node->color == 1 )
+                remove_fix(search_node);
 
-	  delete tmp_node;
-	  // remove-fixup
-	}
-	if( search_node->left == 0 && search_node->right == 0 ) { // (1)
-	  if( search_node->key > search_node->parent->key )
-		search_node->parent->right = 0;
-	  else
-		search_node->parent->left = 0;
+          delete tmp_node;
+          // remove-fixup
+        }
+        if( search_node->left == 0 && search_node->right == 0 ) { // (1)
+          if( search_node->key > search_node->parent->key )
+                search_node->parent->right = 0;
+          else
+                search_node->parent->left = 0;
 
-	  delete search_node;
-	}
-	else if( search_node->left != 0 && search_node->right != 0 ) { // (3)
-	  if( search_node->right->left == 0 ) { // левый узел правого поддерева отсутствует
-		tmp_node = search_node->right;
+          delete search_node;
+        }
+        else if( search_node->left != 0 && search_node->right != 0 ) { // (3)
+          if( search_node->right->left == 0 ) { // левый узел правого поддерева отсутствует
+                tmp_node = search_node->right;
 
-		search_node->key = tmp_node->key;
-		search_node->right = tmp_node->right;
-	  }
-	  else {
-		tmp_node = search_node->right->left;
+                search_node->key = tmp_node->key;
+                search_node->right = tmp_node->right;
+          }
+          else {
+                tmp_node = search_node->right->left;
 
-		// ищем самый левый узел правого поддерева
-		while( tmp_node->left != 0 )
-		  tmp_node = tmp_node->left;
+                // ищем самый левый узел правого поддерева
+                while( tmp_node->left != 0 )
+                  tmp_node = tmp_node->left;
 
-		tmp_node->parent->left = 0;
+                tmp_node->parent->left = 0;
 
-		search_node->key = tmp_node->key;
-	  }
+                search_node->key = tmp_node->key;
+          }
 
-	  delete tmp_node;
-	  // remove-fixup
-	}
-	else { // (2)
-	  if( search_node->right != 0 )
-		tmp_node = search_node->right;
-	  else
-		tmp_node = search_node->left;
+          delete tmp_node;
+          // remove-fixup
+        }
+        else { // (2)
+          if( search_node->right != 0 )
+                tmp_node = search_node->right;
+          else
+                tmp_node = search_node->left;
 
-	  search_node->key = tmp_node->key;
-	  search_node->left = tmp_node->left;
-	  search_node->right = tmp_node->right;
+          search_node->key = tmp_node->key;
+          search_node->left = tmp_node->left;
+          search_node->right = tmp_node->right;
 
-	  delete tmp_node;
-	  // remove-fixup
-	}
+          delete tmp_node;
+          // remove-fixup
+        }
 
-	count--;
-	return 1;
+        count--;
+        return 1;
   }
 
   return 0;
@@ -326,7 +326,7 @@ bool RB::find(int key)
 void RB::printnode(int key, int h)
 {
   for (int i = 0; i < h; i++)
-	std::cout << "\t";
+        std::cout << "\t";
   std::cout << key << std::endl;
 }
 
@@ -348,14 +348,14 @@ void RB::print()
 Node* RB::uncle(Node* node)
 {
   if( node->parent != 0 ) {
-	if( node->parent->parent != 0 ) {
-	  if( node->parent->parent->left == node->parent ) {
-		return node->parent->parent->right;
-	  }
-	  else {
-		return node->parent->parent->left;
-	  }
-	}
+        if( node->parent->parent != 0 ) {
+          if( node->parent->parent->left == node->parent ) {
+                return node->parent->parent->right;
+          }
+          else {
+                return node->parent->parent->left;
+          }
+        }
   }
 
   return 0;
@@ -364,9 +364,9 @@ Node* RB::uncle(Node* node)
 Node* RB::grandparent(Node* node)
 {
   if( node->parent != 0 ) {
-	if( node->parent->parent != 0 ) {
-	  return node->parent->parent;
-	}
+        if( node->parent->parent != 0 ) {
+          return node->parent->parent;
+        }
   }
 
   return 0;
@@ -375,12 +375,12 @@ Node* RB::grandparent(Node* node)
 Node* RB::sibling(Node* node)
 {
   if( node->parent != 0 ) {
-	if( node == node->parent->right ) {
-	  return node->parent->left;
-	}
-	else {
-	  return node->parent->right;
-	}
+        if( node == node->parent->right ) {
+          return node->parent->left;
+        }
+        else {
+          return node->parent->right;
+        }
   }
 
   return 0;
@@ -392,15 +392,15 @@ void RB::rotate_left(Node* n)
 
   pivot->parent = n->parent;
   if (n->parent != 0) {
-	if (n->parent->left==n)
-	  n->parent->left = pivot;
-	else
-	  n->parent->right = pivot;
+        if (n->parent->left==n)
+          n->parent->left = pivot;
+        else
+          n->parent->right = pivot;
   }
 
   n->right = pivot->left;
   if (pivot->left != 0)
-	pivot->left->parent = n;
+        pivot->left->parent = n;
 
   n->parent = pivot;
   pivot->left = n;
@@ -412,15 +412,15 @@ void RB::rotate_right(Node* n)
 
   pivot->parent = n->parent;
   if (n->parent != 0) {
-	if (n->parent->left==n)
-	  n->parent->left = pivot;
-	else
-	  n->parent->right = pivot;
+        if (n->parent->left==n)
+          n->parent->left = pivot;
+        else
+          n->parent->right = pivot;
   }
 
   n->left = pivot->right;
   if (pivot->right != 0)
-	pivot->right->parent = n;
+        pivot->right->parent = n;
 
   n->parent = pivot;
   pivot->right = n;
@@ -450,7 +450,7 @@ bool RB::pop (){
     if (current->right != 0){
       current = current->right;
       while (current->left != 0){
-		current = current->left;
+                current = current->left;
       }
       end=0;
       return true;
@@ -459,12 +459,12 @@ bool RB::pop (){
       Node* current_cpy = current;
       current = current->parent;
       while (current->key < key){
-		current = current->parent;
-		if (current == 0){
-		  current = current_cpy; // не теряем последний элемент
-		  end = 1;
-		  return false; // цэ был последний элемент в дереве
-		}
+                current = current->parent;
+                if (current == 0){
+                  current = current_cpy; // не теряем последний элемент
+                  end = 1;
+                  return false; // цэ был последний элемент в дереве
+                }
       }
       end=0;
       return true;
@@ -493,17 +493,17 @@ void RB::input_set (void){
     cin.sync();
     cin >> size;
     if ((size < 0)){
-	  cout << "Incorrect size of set. It must be a natural number larger than zero.\n";
-	}
+          cout << "Incorrect size of set. It must be a natural number larger than zero.\n";
+        }
   } while ((size < 0));
 
   cout << "Now enter the elements of set (one-by-one): ";
   for (int i = 0; i < size; i++){
-	cin.clear();
-	cin.sync();
-	cin >> element;
+        cin.clear();
+        cin.sync();
+        cin >> element;
 
-	this->insert (element);
+        this->insert (element);
   }
 }
 
@@ -531,8 +531,8 @@ void RB::print_sequence()
   Node* i = this->sequence;
   std::cout << this->name << std::endl;
   while( i != 0 ) {
-	std::cout << i->key << " ";
-	i = i->s_next;
+        std::cout << i->key << " ";
+        i = i->s_next;
   }
   std::cout << std::endl;
 }
@@ -542,7 +542,7 @@ void concat(RB& tree1, RB& tree2)
   Node* item = tree2.sequence;
 
   while( item != 0 ) {
-	tree1.insert(item->key);
+        tree1.insert(item->key);
 	item = item->s_next;
   }
 }
@@ -551,4 +551,31 @@ void merge(RB& tree1, RB& tree2)
 {
   concat(tree1, tree2);
   // sort
+  tree1.pop_clear();
+  tree1.sequence = 0;
+  Node* prev=0;
+  
+  while( tree1.pop() ) {
+    if (tree1.sequence == 0) { // первый элемент последовательности
+      tree1.sequence = tree1.current;
+      (tree1.sequence)->s_next = 0;
+      (tree1.sequence)->s_prev = 0;
+      prev = tree1.sequence;
+    } else if (tree1.is_end()) { // последний элемент последовательности
+      tree1.sequence_end = tree1.current;
+      (tree1.sequence_end)->s_next = 0;
+      (tree1.sequence_end)->s_prev = prev;
+      prev->s_next = tree1.current;
+    } else{
+      (tree1.current)->s_next = 0;
+      (tree1.current)->s_prev = prev;
+      prev->s_next = tree1.current;
+      prev = tree1.current;
+    }      
+  }
+}
+
+void change(RB& tree1, RB& tree2)
+{
+  ;
 }

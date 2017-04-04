@@ -25,12 +25,12 @@ struct Node
 
   Node(int key, Node* parent = 0, Node* prev = 0)
   {
-	this->key = key;
-	left = 0;
-	right = 0;
-	this->parent = parent;
-	this->s_prev = prev;
-	this->s_next = 0;
+        this->key = key;
+        left = 0;
+        right = 0;
+        this->parent = parent;
+        this->s_prev = prev;
+        this->s_next = 0;
   }
 
 Node() : Node(0) { }
@@ -58,6 +58,7 @@ class RB
  private:
   friend void concat(RB&, RB&);
   friend void merge(RB&, RB&);
+  friend void change(RB&, RB&);
   
   bool bs_find(Node* &search, int key);
   void printnode(int key, int h);
