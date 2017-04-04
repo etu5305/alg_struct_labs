@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 {
   RB tree1('A');
 
-  for(int i = 0; i < 5; i++) {
+  for(int i = 2; i < 5; i++) {
         tree1.insert(i);
   }
 
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
   RB tree2('B');
 
-  for(int i = 5; i < 7; i++) {
+  for(int i =0; i < 7; i++) {
         tree2.insert(i);
   }
 

@@ -1,4 +1,5 @@
 #include "rb.h"
+#include "merge_sort.cpp"
 #include <algorithm>
 using namespace std;
 
@@ -551,29 +552,9 @@ void merge(RB& tree1, RB& tree2)
 {
   concat(tree1, tree2);
   // sort
-  tree1.pop_clear();
-  tree1.sequence = 0;
-  Node* prev=0;
-  
-  while( tree1.pop() ) {
-    if (tree1.sequence == 0) { // первый элемент последовательности
-      tree1.sequence = tree1.current;
-      (tree1.sequence)->s_next = 0;
-      (tree1.sequence)->s_prev = 0;
-      prev = tree1.sequence;
-    } else if (tree1.is_end()) { // последний элемент последовательности
-      tree1.sequence_end = tree1.current;
-      (tree1.sequence_end)->s_next = 0;
-      (tree1.sequence_end)->s_prev = prev;
-      prev->s_next = tree1.current;
-    } else{
-      (tree1.current)->s_next = 0;
-      (tree1.current)->s_prev = prev;
-      prev->s_next = tree1.current;
-      prev = tree1.current;
-    }      
-  }
+  merge_sort(&(tree1.sequence));
 }
+
 
 void change(RB& tree1, RB& tree2)
 {
