@@ -39,9 +39,9 @@ Node() : Node(0) { }
 class RB
 {
  public:
-  RB(char letter, std::vector<int> &A);
+  RB(char letter, const std::vector<int> &A, const std::vector<int> &seq = std::vector<int>()); // для поддержки восстановления последовательности. pos in vec A:pos in sequence
   RB(char letter);
-
+  
   bool find(int key);
   bool insert(int key);
   bool remove(int key);
@@ -56,7 +56,7 @@ class RB
   void print_sequence(void);
 
  private:
-  friend void concat(RB&, RB&);
+  friend RB* concat(RB&, RB&);
   friend void merge(RB&, RB&);
   friend void sort(RB&, Node*);
   friend RB* change(RB&, RB&,int);
@@ -67,7 +67,7 @@ class RB
   void build(int *A, int m);
   void rotate_left(Node* n);
   void rotate_right(Node* n);
-  Node* recur_insert (std::vector<int> &A, Node *par, int start, int end);
+  Node* recur_insert (const std::vector<int> &A, Node *par, int start, int end, const std::vector<int> &seq = std::vector<int>());
   
 
   static Node* uncle(Node* node);

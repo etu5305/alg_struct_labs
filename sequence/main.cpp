@@ -5,6 +5,7 @@ int main(int argc, char *argv[])
 {
     srand(time(0));
     RB A('A'), B('B');
+    
     int ans=2;
     do{
       cout << "Would you like to enter (1) sets yourself or to generate (2) random sets ? (1/2) ";
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
       C = change(A, B, ans);
       C->print();
       C->print_sequence();
-    }
+      }
     
     return 1;
 }

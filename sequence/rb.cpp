@@ -14,34 +14,31 @@ RB::RB(char letter)
   name = letter;
 }
 
-RB::RB(char letter, std::vector<int> &A){ // ожидается, что элементы уже упорядочены
+RB::RB(char letter, const std::vector<int> &A, const std::vector<int> &seq = std::vector<int>()){ // ожидается, что элементы уже упорядочены
   current = 0;
   end = 0;
   count = 0;
   name = letter;
   root = 0;
-  sequence = 0;
-  sequence_end = 0;
   if (!A.empty()) {
     // A.size() is O(1) complexity
     int index = (A.size()-1) / 2;
     root = new Node(A[index]);
-        sequence = root;
-        sequence_end = root;
     root->parent = 0;
     root->color = 1;
     count++;
-    root->left = recur_insert(A, this->root, 0, index-1);
-    root->right = recur_insert(A, this->root, index + 1,  A.size() - 1);
+    root->left = recur_insert(A, this->root, 0, index-1, seq);
+    root->right = recur_insert(A, this->root, index + 1,  A.size() - 1, seq);
   }
 }
 
-Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end){
+Node* RB::recur_insert (const std::vector<int> &A, Node *par, int start, int end, const std::vector<int> &seq = std::vector<int>()){
   if (end < start) return 0;
   else if (end == start) { // лист
-    Node *s = new Node(A[start], par, sequence_end);
-        sequence_end->s_next = s;
-        sequence_end = s;
+    if (!seq.empty()) 
+      Node *s = new Node(A[start], par, seq.at(start));
+    else
+      Node *s = new Node(A[start], par);
     this->count++;
     s->color = 1;
     if ((A.size() % 2) == 0 && this->count == A.size()) // если кол-во элементов чётное и это последний элемент, то родителя следует перекрасить в красный
@@ -51,9 +48,11 @@ Node* RB::recur_insert (std::vector<int> &A, Node *par, int start, int end){
   // узел
   this->count++;
   int index = (end+start) / 2;
-  Node *s = new Node(A[index], par, sequence_end);
-  sequence_end->s_next = s;
-  sequence_end = s;
+  if (!seq.empty()) 
+    Node *s = new Node(A[index], par, seq.at(index));
+  else
+    Node *s = new Node(A[index], par);
+
   s->color = 1; // всё узлы черные (кроме родителя последнего листа в случае если число узлов (листов в т.ч.) чётное)
   s->left = recur_insert(A, s, start, index-1);
   s->right = recur_insert(A, s, index + 1, end);
@@ -169,7 +168,6 @@ void RB::fix(Node* N) // балансировка дерева после вст
   }
   this->root->color = 1;
 }
-
 
 
 bool RB::remove_fix(Node* N) // балансировка дерева после удаления
