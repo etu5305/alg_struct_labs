@@ -20,17 +20,19 @@ struct Node
   Node* left;
   Node* right;
   Node* parent;
-  Node* s_next; // следующий элемент последовательности
-  Node* s_prev; // ссылка на предыдущий элемент последовательности
+  /* Node* s_next; // следующий элемент последовательности */
+  /* Node* s_prev; // ссылка на предыдущий элемент последовательности */
+  int number;
 
-  Node(int key, Node* parent = 0, Node* prev = 0)
+  Node(int key, int number = 0, Node* parent = 0)
   {
-        this->key = key;
-        left = 0;
-        right = 0;
-        this->parent = parent;
-        this->s_prev = prev;
-        this->s_next = 0;
+	this->key = key;
+	left = 0;
+	right = 0;
+	this->parent = parent;
+	this->number = number; 
+	/* this->s_prev = prev; */
+	/* this->s_next = 0; */
   }
 
 Node() : Node(0) { }
@@ -54,6 +56,7 @@ class RB
   void input_set (void);
   void generate_set (void);
   void print_sequence(void);
+  void get_vec(Node* node, std::vector<Node*> &vec, std::vector<int> &seq);
 
  private:
   friend RB* concat(RB&, RB&);
@@ -78,8 +81,9 @@ class RB
   Node* current; // устанавливается при вызове pop(), для получения значения в узле используется get_current_value()
   bool end; // флаг, который устанавливается, когда во время вызова pop() был достигнут конец дерева
 
-  Node* sequence; // корень последовательности
-  Node* sequence_end; // последний элемент последовательности
+  /* Node* sequence; // корень последовательности */
+  /* Node* sequence_end; // последний элемент последовательности */
+  std::vector<Node*> sequence;
   Node* root; // корень
   int count; // количество узлов в дереве
   char name; // имя дерева
