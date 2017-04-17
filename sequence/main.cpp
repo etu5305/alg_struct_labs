@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
       A.print();
       A.print_sequence();
     }else if (ans == 2){
-      concat(A, B);
-      A.print();
-      A.print_sequence();
+      RB *C = concat(A, B);
+      C->print();
+      C->print_sequence();
     }else{
       ans=0;
       do{

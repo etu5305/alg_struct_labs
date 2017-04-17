@@ -5,12 +5,13 @@ RB* change (RB &tree1, RB& tree2, int p);
 
 RB* concat (RB& tree1, RB& tree2)
 {
-  tree1.dd();
-  tree2.dd();
+  std::vector<int> seq1,seq2,seq,vec1,vec2,result;
+  
+  tree1.get_vec(tree1.root, vec1, seq1);
+  tree2.get_vec(tree2.root, vec2, seq2);
 
-  vector<int> result;
-  vector<int>::iterator x1 = vec1.begin();
-  vector<int>::iterator x2 = vec2.begin();
+  std::vector<int>::iterator x1 = vec1.begin();
+  std::vector<int>::iterator x2 = vec2.begin();
 
   while (x1 != vec1.end() || x2 != vec2.end()){
     if (x1 != vec1.end() && x2 != vec2.end()){
@@ -34,8 +35,8 @@ RB* concat (RB& tree1, RB& tree2)
     }
   }
 
-  RB *new_tree = new RB();
-  
+  RB *new_tree = new RB(tree1.name, result, seq);
+  return new_tree;
 }
 
 void sort(RB& tree, Node* node)

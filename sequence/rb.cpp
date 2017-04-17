@@ -14,7 +14,7 @@ RB::RB(char letter)
   name = letter;
 }
 
-RB::RB(char letter, const std::vector<int> &A, const std::vector<int> &seq = std::vector<int>()){ // ожидается, что элементы уже упорядочены
+RB::RB(char letter, const std::vector<int> &A, const std::vector<int> &seq){ // ожидается, что элементы уже упорядочены
   current = 0;
   end = 0;
   count = 0;
@@ -25,8 +25,10 @@ RB::RB(char letter, const std::vector<int> &A, const std::vector<int> &seq = std
   if (!A.empty()) {
     // A.size() is O(1) complexity
     int index = (A.size()-1) / 2;
-    root = new Node(A[index], 0);
-    sequence.push_back(root);
+    if (!seq.empty())
+      root = new Node(A[index], seq[index]);
+    else
+      root = new Node(A[index], 0);
     // sequence = root;
     // sequence_end = root;
     root->parent = 0;
@@ -37,14 +39,15 @@ RB::RB(char letter, const std::vector<int> &A, const std::vector<int> &seq = std
   }
 }
 
-Node* RB::recur_insert (const std::vector<int> &A, Node *par, int start, int end, const std::vector<int> &seq = std::vector<int>()){
+Node* RB::recur_insert (const std::vector<int> &A, Node *par, int start, int end, const std::vector<int> &seq){
+  Node *s;
   if (end < start) return 0;
   else if (end == start) { // лист
     if (!seq.empty()) 
-      Node *s = new Node(A[start], seq.at(start), par);
+      s = new Node(A[start], seq.at(start), par);
     else
-      Node *s = new Node(A[start], count, par);
-    sequence.push_back(s);
+      s = new Node(A[start], count, par);
+
     // sequence_end->s_next = s;
     // sequence_end = s;
     this->count++;
@@ -56,17 +59,16 @@ Node* RB::recur_insert (const std::vector<int> &A, Node *par, int start, int end
   // узел
   int index = (end+start) / 2;
   if (!seq.empty()) 
-    Node *s = new Node(A[index], seq.at(index), par);
+    s = new Node(A[index], seq.at(index), par);
   else
-    Node *s = new Node(A[index], count, par);
-  
-  sequence.push_back(s);
+    s = new Node(A[index], count, par);
+
   // sequence_end->s_next = s;
   // sequence_end = s;
   this->count++;
   s->color = 1; // всё узлы черные (кроме родителя последнего листа в случае если число узлов (листов в т.ч.) чётное)
-  s->left = recur_insert(A, s, start, index-1);
-  s->right = recur_insert(A, s, index + 1, end);
+  s->left = recur_insert(A, s, start, index-1, seq);
+  s->right = recur_insert(A, s, index + 1, end, seq);
   
   return s;
 }
@@ -541,12 +543,27 @@ void RB::generate_set (void){
 
 void RB::print_sequence()
 {
-  std::vector<Node*>::iterator the_iterator;
+  std::vector<int> ordered(this->count), seq, vec;
+  get_vec(this->root, vec, seq);
+  std::vector<int>::iterator it_seq=seq.begin(),it_vec=vec.begin();
+
+  while (it_seq != seq.end() && it_vec != vec.end()){
+    ordered[*it_seq] = *it_vec;
+    ++it_seq;++it_vec;
+  }
+
+  for (it_vec = ordered.begin(); it_vec != ordered.end(); ++it_vec){
+    std::cout << *it_vec << " ";
+  }
+
+  std::cout << std::endl;
+  
+  /*std::vector<Node*>::iterator the_iterator;
   the_iterator = sequence.begin();
   while (the_iterator != sequence.end()) {
 	std::cout << (*the_iterator)->key << " ";
 	++the_iterator;
-  }
+	}*/
   // Node* i = this->sequence;
   // std::cout << this->name << std::endl;
   // while( i != 0 ) {
@@ -558,7 +575,7 @@ void RB::print_sequence()
 
 
 
-void RB::get_vec(Node* node, std::vector<Node*> &vec, std::vector<int> &seq)
+void RB::get_vec(Node* node, std::vector<int> &vec, std::vector<int> &seq)
 {
   if (this->root == node) {
 	vec.clear();
@@ -570,7 +587,7 @@ void RB::get_vec(Node* node, std::vector<Node*> &vec, std::vector<int> &seq)
 
   get_vec(node->left, vec, seq);
 
-  vec.push_back(node);
+  vec.push_back(node->key);
   seq.push_back(node->number);
 
   get_vec(node->right, vec, seq);

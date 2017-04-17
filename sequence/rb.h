@@ -56,7 +56,7 @@ class RB
   void input_set (void);
   void generate_set (void);
   void print_sequence(void);
-  void get_vec(Node* node, std::vector<Node*> &vec, std::vector<int> &seq);
+  void get_vec(Node* node, std::vector<int> &vec, std::vector<int> &seq);
 
  private:
   friend RB* concat(RB&, RB&);
