@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
     cout << "\n";
 
     if (ans == 1){
-      merge(A, B);
-      A.print();
-      A.print_sequence();
+      RB *C = merge(A, B);
+      C->print();
+      C->print_sequence();
     }else if (ans == 2){
       RB *C = concat(A, B);
       C->print();

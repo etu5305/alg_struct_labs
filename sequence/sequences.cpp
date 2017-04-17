@@ -1,6 +1,6 @@
 void sort(RB& tree, Node* node);
 RB* concat (RB& tree1, RB& tree2);
-void merge(RB& tree1, RB& tree2);
+RB* merge(RB& tree1, RB& tree2);
 RB* change (RB &tree1, RB& tree2, int p);
 
 RB* concat (RB& tree1, RB& tree2)
@@ -57,12 +57,13 @@ void sort(RB& tree, Node* node)
   sort(tree, node->right);
 }
 
-void merge(RB& tree1, RB& tree2)
+RB* merge(RB& tree1, RB& tree2)
 {
-  // concat(tree1, tree2);
+  RB *tree3 =  concat(tree1, tree2);
   // tree1.sequence = 0;
   // tree1.sequence_end = 0;
-  // sort(tree1, tree1.root);
+  sort(*tree3, tree3->root);
+  return tree3;
 }
 
 RB* change (RB &tree1, RB& tree2, int p)

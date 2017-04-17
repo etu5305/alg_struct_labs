@@ -60,7 +60,7 @@ class RB
 
  private:
   friend RB* concat(RB&, RB&);
-  friend void merge(RB&, RB&);
+  friend RB* merge(RB&, RB&);
   friend void sort(RB&, Node*);
   friend RB* change(RB&, RB&,int);
   
