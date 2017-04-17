@@ -1,15 +1,13 @@
-CC=g++
-CFLAGS=-c -std=c++11
-LDFLAGS=
-SOURCES=main.cpp rb.cpp
-BUILD_DIR=build
-EXECUTABLE=$(BUILD_DIR)/sequence
-OBJECTS=$(SOURCES:%.cpp=$(BUILD_DIR)/%.o)
+CXX = g++
+CXXFLAGS = -std=c++11 -ggdb
 
-all: $(SOURCES) $(EXECUTABLE)
-
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
-
-$(BUILD_DIR)/%.o: %.cpp
-	$(CC) $(CFLAGS) $< -o $@
+# main target:
+sequence : main.cpp rb.o
+	$(CXX) $(CXXFLAGS) $^  -o $@
+# dependent target
+rb.o : rb.cpp
+	$(CXX) $(CXXFLAGS) $< -c -o $@
+# not dependent rule
+.LOL : clean # for case with exists 'clean' file
+clean :
+	rm *.o sequence

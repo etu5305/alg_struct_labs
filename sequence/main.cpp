@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     cout << "\n";
 
     if (ans == 1){
+      
       RB *C = merge(A, B);
       C->print();
       C->print_sequence();
@@ -65,10 +66,8 @@ int main(int argc, char *argv[])
 	  cout << "It must be >= 0. Try again. \n";
 	}
       }while (ans < 0);
-      
       cout << "\n";
-      RB *C;
-      C = change(A, B, ans);
+      RB *C = change(A, B, ans);
       C->print();
       C->print_sequence();
       }
