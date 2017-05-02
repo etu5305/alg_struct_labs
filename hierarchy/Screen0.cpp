@@ -43,44 +43,33 @@ void myshape::move(int a, int b)
 int main( )
 {   setlocale(LC_ALL, "ru-RU");
 	screen_init();
-// // //1.Объявление набора фигур
-// // 	/*try{
-// // 	rotatable* p1 = new rectangle(point(0,0),point(14,5));
-// // 	shape* p2 = new line(point(0,15),17);
-// // 	shape* p3 = new myshape(point(25,10),point(37,18));*/
-//r_cross *p4 = new r_cross(point(0,0), point(6, 6), 3);
-// // 	//	*p5 = new r_cross(point(40,0), point(46, 6), 3);
-	square_sidelong_cross* p4 = new square_sidelong_cross(point(1,1),15);
-	//shape_refresh();
-	screen_clear();
-	p4->draw();
-	screen_refresh();
-	/*	//	_getch();
-//2.Ориентация
-	p1->rotate_right();
+	//1.Объявление набора фигур
+	rotatable* p1 = new rectangle(point(0,0),point(14,5));// цилиндр
+	shape* p2 = new line(point(0,15),17); //ободок цилиндра
+	shape* p3 = new myshape(point(25,10),point(37,18)); //лицо
+	square_sidelong_cross *p4 = new square_sidelong_cross(point(0,0),6);
+	square_sidelong_cross *p5 = new square_sidelong_cross(point(40,0), 6);
+	square_sidelong_cross *p6 = new square_sidelong_cross(point(0,0), 6);
 
-    	shape_refresh();
+
+	  
+			//	_getch();
+//2.Ориентация
+	  p1->rotate_right();
+	   
+	  //  shape_refresh();
 	//	_getch();
 //3.Сборка изображения
-	p3->move(-10,-10);
-	stack(p2,p3);
-	stack(p1,p2);
-	l_side(p4,p2);
-	shape_refresh();
-	//	_getch();
-	r_side(p5,p2);
-	shape_refresh();
-	}
-	catch (OutScreen &E)
-	{ cout << "\nСборка: выход за экран "; E.Msg(); cout << endl; }
-	catch (bad_alloc &b) 
-	{ cout << "\nНедостаточно памяти\n" << b.what() << endl; }
-	catch (exception & e)
-	{ cout << "\nНепредусмотренная ошибка " << e.what() << endl; }
-	catch (...)
-	{ cout << "\nНепредусмотренная ошибка\n"; }
+	  p3->move(-10,-10);
+	  stack(p2,p3);
+	  stack(p1,p2);
+	  l_side(p4,p2);
+	  r_side(p5,p2);
+	  put_to_center(p6, p1);
+	  shape_refresh();
 
-	//	_getch();*/
-//	screen_destroy();
+
+	//	_getch();
+	//	screen_destroy();
 	return 0;
 }

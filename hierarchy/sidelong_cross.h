@@ -62,18 +62,18 @@ public:
 };
 
 //Прямоугольник с косым крестом
-class r_sidelong_cross : public r_cross, public sidelong_cross {
+class r_sidelong_cross : public rectangle, public sidelong_cross {
 public:
   point north() const { return sidelong_cross::north(); }
   point south() const { return sidelong_cross::south(); }
   point east() const { return sidelong_cross::east(); }
   point west() const { return sidelong_cross::west(); }
-  point neast() const { return r_cross::neast(); }
-  point seast() const { return r_cross::seast(); }
-  point nwest() const { return r_cross::nwest(); }
-  point swest() const { return r_cross::swest(); }
+  point neast() const { return rectangle::neast(); }
+  point seast() const { return rectangle::seast(); }
+  point nwest() const { return rectangle::nwest(); }
+  point swest() const { return rectangle::swest(); }
   void move(int a, int b)
-  { r_cross::move(a,b); }
+	{ rectangle::move(a, b); cross::move(a, b); }
   void draw() {
     rectangle::draw();
     sidelong_cross::draw();
@@ -81,7 +81,7 @@ public:
   r_sidelong_cross(point,point,int);
 };
 
-r_sidelong_cross::r_sidelong_cross(point a, point b, int c) : r_cross(a, b,c), sidelong_cross(point((a.x+b.x)/2, (a.y+b.y)/2), c)
+r_sidelong_cross::r_sidelong_cross(point a, point b, int c) : rectangle(a, b), sidelong_cross(point((a.x+b.x)/2, (a.y+b.y)/2), c)
 { }
 
 //Квадрат с косым крестом
