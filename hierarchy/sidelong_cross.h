@@ -68,3 +68,18 @@ class square_sidelong_cross : public r_sidelong_cross {
 
 square_sidelong_cross::square_sidelong_cross(point sw, int side) : r_sidelong_cross (sw, point(sw.x+side, sw.y+side), side/2)
 { }
+
+void put_to_center(shape* p, const shape*q) // поместить р в центр q
+{
+  point w = p->west();
+  point e = p->east();
+  point n = p->north();
+  point s = p->south();
+  point p_c((w.x+e.x)/2, (n.y+s.y)/2);
+  w = q->west();
+  e = q->east();
+  n = q->north();
+  s = q->south();
+  point q_c((w.x+e.x)/2, (n.y+s.y)/2);
+  p->move(q_c.x-p_c.x, q_c.y-p_c.y);
+}
