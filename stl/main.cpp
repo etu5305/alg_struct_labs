@@ -136,15 +136,50 @@ void stud_xor(stud_set& A, stud_set& B, stud_set& C)
 
 void stud_concat(stud_set& A, stud_set& B, stud_set& C)
 {
+	std::vector<stud_item> vec1, vec2, result;
+	vector<stud_item>::iterator x1, x2;
+	
 	C.values.clear();
 	C.sequence.clear();
 
-	for(auto it = A.sequence.cbegin(); it != A.sequence.cend(); ++it) {
-		C.sequence.push_back(C.values.insert(stud_item((**it).key, C.sequence.size())));
+		// Формируем упорядоченный по возрастанию ключей массив из элементов множества A
+	for (auto it = A.values.begin(); it != A.values.end(); it++) {
+		vec1.push_back(*it);
+	}
+	
+	int p = vec1.size();
+	
+	// Формируем упорядоченный по возрастанию ключей массив из элементов множества B
+	for (auto it = B.values.begin(); it != B.values.end(); it++) {
+		vec2.push_back(stud_item((*it).key, (*it).number + p));
 	}
 
-	for(auto it = B.sequence.cbegin(); it != B.sequence.cend(); ++it) {
-		C.sequence.push_back(C.values.insert(stud_item((**it).key, C.sequence.size())));
+	x1 = vec1.begin();
+  x2 = vec2.begin();
+	// Конкатенация элементов последовательности vec1 и последовательности vec2
+  while (x1 != vec1.end() || x2 != vec2.end()) {
+    if (x1 != vec1.end() && x2 != vec2.end()) {
+      if (*x1 <= *x2) {
+				result.push_back(*x1);
+				++x1;
+      } else {
+				result.push_back(*x2);
+				++x2;
+      }
+    } else if(x1 != vec1.end()) { // случай когда второй вектор закончился
+      result.push_back(*x1);
+      ++x1;
+    } else { // случай когда первый вектор закончился
+      result.push_back(*x2);
+      ++x2;
+    }
+  }
+
+	C.values.insert(result.begin(), result.end());
+	C.sequence.resize(C.values.size());
+
+	for (auto it = C.values.begin(); it != C.values.end(); it++) {
+		C.sequence[(*it).number] = it;
 	}
 }
 
@@ -307,7 +342,7 @@ int main(int argc, char** argv)
 	C.setOut();
 	C.seqOut();
 
-	cout << "\nchange(A, B)" << endl;
+	cout << "\nchange(A, B, 1)" << endl;
 	stud_change(A, B, C, 1);
 	C.setOut();
 	C.seqOut();
