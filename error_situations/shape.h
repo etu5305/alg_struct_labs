@@ -71,15 +71,15 @@ class rectangle : public rotatable {
    |		          |
    sw ------ s ------ se
 */
-  point sw, ne;
+    point sw, ne;
 public:
   point north() const { return point((sw.x+ne.x)/2,ne.y); }
   point south() const { return point((sw.x+ne.x)/2,sw.y); }
-  point east() const { return point(sw.x,(sw.y+ne.y)/2); }
-  point west() const { return point(ne.x,(sw.y+ne.y)/2); }
+  point west() const { return point(sw.x,(sw.y+ne.y)/2); }
+  point east() const { return point(ne.x,(sw.y+ne.y)/2); }
   point neast() const { return ne; }
-  point seast() const { return point(sw.x, ne.y); }
-  point nwest() const { return point(ne.x, sw.y); }
+  point seast() const { return point(ne.x, sw.y); }
+  point nwest() const { return point(sw.x, ne.y); }
   point swest() const { return sw; }
   void rotate_right() //Поворот вправо - относительно se
 	{ int w = ne.x - sw.x, h = ne.y - sw.y; 
@@ -121,48 +121,15 @@ rectangle::rectangle(point a, point b)
 }  
 void rectangle::draw()
 {
-  point nw(sw.x,ne.y);
-  point se(ne.x,sw.y);
-  try{
-    put_line(ne,se);
-    put_line(sw,nw);
-    put_line(sw,se);    
-    put_line(ne,nw);
-  }
-  catch (Out_Screen &err){
-      std::cout << "Rectangle is out of screen. Resizing.." <<endl;
+  point nw = nwest();
+  point se = seast();
+  if (!on_screen(sw.x,sw.y) || !on_screen(ne.x,ne.y))
+    throw Out_Screen();
   
-      while (!on_screen(sw.x, sw.y) || !on_screen(ne.x,ne.y)){
-	if(!on_screen(sw.x, sw.y)){
-	  // move_sw(1,1);
-	  sw.x+=1;
-	  sw.y+=1;
-	}
-	
-	if (!on_screen(ne.x,ne.y)){
-	  //move_ne(-1,-1);
-	  ne.x-=1;
-	  ne.y-=1;
-	}
-      }
-      
-      
-      if (on_screen(sw.x, sw.y) && on_screen(ne.x,ne.y)){
-	point nw(sw.x,ne.y);
-	point se(ne.x,sw.y);
-	
-	put_line(ne,se);
-	put_line(sw,nw);
-	put_line(nw,ne);    
-	put_line(se,sw);
-	
-      }else{
-	std::cout<< "Failed to resize it." <<endl;
-      }
-    }
-    catch (...){
-      std::cout << "Unknown error." << endl;
-    }
+  put_line(ne,se);
+  put_line(sw,nw);
+  put_line(sw,se);    
+  put_line(ne,nw);
 }
 
 

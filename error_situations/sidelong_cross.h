@@ -58,26 +58,48 @@ class r_sidelong_cross : public rectangle, public sidelong_cross {
      }
      catch (Out_Screen &err){
       std::cout << "Sidelong cross is out of screen. Resizing.." <<endl;
-      point n_e = rectangle::neast();
-      point s_w = rectangle::swest();
-  
-      n_e = rectangle::neast();
-      s_w = rectangle::swest();
+      
+      point sw = swest();
+      point ne = neast();
+      while (!on_screen(sw.x, sw.y) || !on_screen(ne.x,ne.y)){
+	if(!on_screen(sw.x, sw.y)){
+	  rectangle::move_sw(1,1);
+	  sw.x+=1;
+	  sw.y+=1;
+	}
+	
+	if (!on_screen(ne.x,ne.y)){
+	  rectangle::move_ne(-1,-1);
+	  ne.x-=1;
+	  ne.y-=1;
+	}
+	
+	if(ne.x < 0 || ne.y < 0 || sw.x > XMAX || sw.y > YMAX){
+	  break;
+	}
+	
+      }
 
+    if (on_screen(sw.x, sw.y) && on_screen(ne.x,ne.y)){
+
+      rectangle::draw();
       point p_c = sidelong_cross::get_c();
 
-      point q_c((n_e.x+s_w.x)/2, (n_e.y+s_w.y)/2);
+      point q_c((ne.x+sw.x)/2, (ne.y+sw.y)/2);
       sidelong_cross::move(q_c.x-p_c.x, q_c.y-p_c.y);
-      sidelong_cross::resize(q_c.x - s_w.x);
-      
-      if (!(on_screen(s_w.x, s_w.y) && on_screen(n_e.x,n_e.y))){
-	std::cout<< "Failed to resize it." <<endl;
-	}
+      sidelong_cross::resize(q_c.x - sw.x);
+     
+
+      }else{
+	  std::cout<< "Failed to resize it." <<endl;
+	  abort();
+      }
     }
     catch (...){
       std::cout << "Unknown error." << endl;
+      abort();
       }
-    //sidelong_cross::draw();
+    sidelong_cross::draw();
    
   }
   r_sidelong_cross(point,point,int);
