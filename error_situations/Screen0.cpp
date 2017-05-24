@@ -42,11 +42,11 @@ int main( )
 {   setlocale(LC_ALL, "ru-RU");
   screen_init();
   //1.Объявление набора фигур	
-  rectangle* p1 = new rectangle(point(4,0),point(16,5));
-  //square_sidelong_cross *p2 = new suare_sidelong_cross(point(20,20),16);
+  //rectangle* p1 = new rectangle(point(-2,0),point(16,5));
+  square_sidelong_cross *p2 = new square_sidelong_cross(point(-1,1),16);
 
   shape_refresh();
-  std::cout << p1->seast().x;
+  //std::cout << p1->seast().x;
   //2.Ориентация
   //p1->move(-2,-3); // частично за пределами экрана
   //p2->move(-22,0); // частично за пределами экрана

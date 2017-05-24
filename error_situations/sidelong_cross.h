@@ -46,19 +46,18 @@ class r_sidelong_cross : public rectangle, public sidelong_cross {
   point south() const { return rectangle::south(); }
   point east() const { return rectangle::east(); }
   point west() const { return rectangle::west(); }
-  point neast() const { return sidelong_cross::neast(); }
-  point seast() const { return sidelong_cross::seast(); }
-  point nwest() const { return sidelong_cross::nwest(); }
-  point swest() const { return sidelong_cross::swest(); }
+  point neast() const { return rectangle::neast(); }
+  point seast() const { return rectangle::seast(); }
+  point nwest() const { return rectangle::nwest(); }
+  point swest() const { return rectangle::swest(); }
   void move(int a, int b)
   { rectangle::move(a, b); sidelong_cross::move(a, b); }
   void draw() {
-    try{
+     try{
       rectangle::draw();
-    }
-    catch (Out_Screen &err){
+     }
+     catch (Out_Screen &err){
       std::cout << "Sidelong cross is out of screen. Resizing.." <<endl;
-
       point n_e = rectangle::neast();
       point s_w = rectangle::swest();
   
@@ -73,12 +72,12 @@ class r_sidelong_cross : public rectangle, public sidelong_cross {
       
       if (!(on_screen(s_w.x, s_w.y) && on_screen(n_e.x,n_e.y))){
 	std::cout<< "Failed to resize it." <<endl;
-      }
+	}
     }
     catch (...){
       std::cout << "Unknown error." << endl;
-    }
-    sidelong_cross::draw();
+      }
+    //sidelong_cross::draw();
    
   }
   r_sidelong_cross(point,point,int);

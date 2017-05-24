@@ -123,11 +123,11 @@ void rectangle::draw()
 {
   point nw(sw.x,ne.y);
   point se(ne.x,sw.y);
-  try{   
-    //put_line(nw,ne);
+  try{
     put_line(ne,se);
-    put_line(se,sw);
     put_line(sw,nw);
+    put_line(sw,se);    
+    put_line(ne,nw);
   }
   catch (Out_Screen &err){
       std::cout << "Rectangle is out of screen. Resizing.." <<endl;
@@ -148,12 +148,14 @@ void rectangle::draw()
       
       
       if (on_screen(sw.x, sw.y) && on_screen(ne.x,ne.y)){
-	point nw=nwest();
-	point se=seast();
-	 put_line(nw,ne);
-	 put_line(ne,se);
-	 put_line(se,sw);
-	 put_line(sw,nw);
+	point nw(sw.x,ne.y);
+	point se(ne.x,sw.y);
+	
+	put_line(ne,se);
+	put_line(sw,nw);
+	put_line(nw,ne);    
+	put_line(se,sw);
+	
       }else{
 	std::cout<< "Failed to resize it." <<endl;
       }
